@@ -110,9 +110,9 @@ const UploadForm = () => {
 
         <button
           type="submit"
-          className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-4"
+          className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-4 transition-all"
         >
-          {loading ? "Loading" : "Login"}
+          {loading ? "Loading" : "Upload"}
         </button>
       </form >
     </div >
