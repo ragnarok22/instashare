@@ -12,8 +12,6 @@ const UserContext = createContext();
 export function UserWrapper({ children }) {
   const [state, dispatch] = useReducer(UserReducer, initialState);
 
-  console.log(state);
-
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("state"))) {
       // cheching if there already is a state in localstorage

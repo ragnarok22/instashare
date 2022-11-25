@@ -1,9 +1,10 @@
-import BaseLayout from "../layouts/BaseLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
+import HomeComponent from "../components/Home";
 
 export default function Home() {
   return (
-    <BaseLayout>
-      <p></p>
-    </BaseLayout>
+    <DashboardLayout>
+      <HomeComponent />
+    </DashboardLayout>
   );
 }
