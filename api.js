@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useUserContext } from "./context/UserContext";
 
 const axios_instance = axios.create({
   baseURL: "http://localhost:8000/api/",
@@ -8,6 +9,17 @@ const axios_instance = axios.create({
 });
 
 const apiSettings = {
+  login: async (data) => {
+    const response = await axios_instance
+      .post("login/", data)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+    return response;
+  },
   createFile: async (data) => {
     let form_data = new FormData();
     if (data.file) {
@@ -18,6 +30,7 @@ const apiSettings = {
         .post("files/", form_data, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${state.token}`,
           },
         })
         .then((response) => {
@@ -26,8 +39,6 @@ const apiSettings = {
         .catch((error) => {
           return error.response;
         });
-
-      console.log(newFile);
 
       if (newFile.status === 201) {
         return;

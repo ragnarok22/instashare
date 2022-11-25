@@ -1,33 +1,49 @@
 import Link from "next/link"
 import { useState } from "react"
+import API from "../api"
+import Message from "./Message"
 
 const LoginForm = ({ handleLogin }) => {
-  const [email, setEmail] = useState()
+  const [username, setUsername] = useState()
   const [password, setPassword] = useState()
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState({})
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+    const response = await API.login({
+      username, password
+    })
+    setLoading(false)
 
-    handleLogin(e)
+    if (response.status === 200) {
+      const token = response.data.access;
+      handleLogin({ token })
+    } else if (response.status === 401) {
+      setMessage({
+        type: "error",
+        message: "Wrong username or password"
+      })
+    }
   }
 
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+        <Message type={message.type} message={message.message} />
         <form className="bg-white px-6 py-8 rounded shadow-md text-black w-full" onSubmit={handleSubmit}>
           <h1 className="mb-8 text-3xl text-center">Login</h1>
 
           <input
             type="text"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
-            name="email"
+            name="username"
             required
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email" />
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            placeholder="Username" />
 
           <input
             type="password"
