@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useState } from "react"
 
-const LoginForm = () => {
+const LoginForm = ({ handleLogin }) => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [loading, setLoading] = useState(false)
@@ -10,7 +10,7 @@ const LoginForm = () => {
     e.preventDefault()
     setLoading(true)
 
-    // request login
+    handleLogin(e)
   }
 
 
@@ -24,6 +24,7 @@ const LoginForm = () => {
             type="text"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
             name="email"
+            required
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="Email" />
@@ -32,6 +33,7 @@ const LoginForm = () => {
             type="password"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
             name="password"
+            required
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="Password" />
