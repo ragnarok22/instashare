@@ -1,8 +1,12 @@
 import { useRef, useState } from "react"
 import Preview from "./Preview"
 import API from "../api"
+import { useUserContext } from "../context/UserContext"
+import { useRouter } from "next/router"
 
 const UploadForm = () => {
+  const { state } = useUserContext()
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState()
   const [title, setTitle] = useState("")
@@ -29,11 +33,11 @@ const UploadForm = () => {
     setLoading(true)
     const response = await API.createFile({
       file, title
-    })
+    }, state.token)
     setLoading(false)
 
     if (response === null) {
-      // redirect
+      router.push("/")
     } else if (response.status === 400) {
       console.error(response.data)
     }
