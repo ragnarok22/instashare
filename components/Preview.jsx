@@ -32,7 +32,7 @@ const Preview = ({ file }) => {
           </svg>
         )}
         {file.type.includes("image/") && (
-          <img className="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview" ref={previewRef}
+          <img className="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
             src={loadFile(file)} />
         )}
         {file.type.includes("video/") && (

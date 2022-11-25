@@ -1,11 +1,12 @@
-import { createRef, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import Preview from "./Preview"
+import API from "../api"
 
 const UploadForm = () => {
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState()
+  const [title, setTitle] = useState("")
   const dropRef = useRef()
-  const previewRef = useRef()
 
   const handleDragOver = (e) => {
     dropRef.current.classList.add("border-blue-400")
@@ -23,12 +24,31 @@ const UploadForm = () => {
     setFile(e.target.files[0])
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const response = await API.createFile({
+      file, title
+    })
+    setLoading(false)
+
+    if (response === null) {
+      // redirect
+    } else if (response.status === 400) {
+      console.error(response.data)
+    }
+  }
+
   return (
     <div className="w-full flex flex-col items-center">
       <h2 className="my-2 font-medium text-2xl">Upload an Image to Share</h2>
 
-      <form action="post" className="flex flex-col w-full lg:w-1/2">
-        <input type="text" className="border border-gray-500 w-full p-3 rounded mb-4" placeholder="Image title" />
+      <form action="post" className="flex flex-col w-full lg:w-1/2" onSubmit={handleSubmit}>
+        <input type="text" className="border border-gray-500 w-full p-3 rounded mb-4"
+          placeholder="Image title"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
 
         <div className="bg-white rounded w-full mx-auto">
           <div className="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded">
