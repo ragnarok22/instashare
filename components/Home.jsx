@@ -52,9 +52,6 @@ const Home = () => {
             </div>
           ))
         }
-        <template x-for="post in posts">
-
-        </template>
       </div>
     </section>
   )
