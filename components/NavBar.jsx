@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 const Navbar = () => (
   <nav className="flex justify-around py-4 bg-white/80
             backdrop-blur-md shadow-md w-full
@@ -12,20 +14,18 @@ const Navbar = () => (
     </div>
 
     <div className="items-center hidden space-x-8 lg:flex">
-      <a className="flex text-blue-600 font-semibold hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
+      <Link href="/" className="flex text-blue-600 font-semibold hover:text-blue-500 cursor-pointer transition-colors duration-300">
         Home
-      </a>
+      </Link>
 
-      <a className="flex text-gray-600 
-                    cursor-pointer transition-colors duration-300">
+      <Link href="/upload" className="flex text-gray-600 cursor-pointer transition-colors duration-300">
         Upload
-      </a>
+      </Link>
 
-      <a className="flex text-gray-600 hover:text-blue-500
+      <Link href="/about" className="flex text-gray-600 hover:text-blue-500
                     cursor-pointer transition-colors duration-300">
         About Us
-      </a>
+      </Link>
 
     </div>
 
