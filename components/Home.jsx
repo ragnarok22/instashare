@@ -32,9 +32,9 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 py-2 px-12">
+    <div className="bg-gray-100 dark:bg-gray-900 py-2 px-2 lg:px-12">
       {files.length > 0 ?
-        <div className="flex justify-center overflow-x-auto">
+        <div className="flex justify-center">
           <FileList items={files} />
         </div>
         : <div className="my-4 text-neutral-600 text-2xl text-center">

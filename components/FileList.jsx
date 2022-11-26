@@ -14,26 +14,28 @@ const FileList = ({ items }) => {
           </button>
         </div>
       </div>
-      <table className="w-full">
-        <thead className="hidden">
-          <tr>
-            <th>title</th>
-            <th>Created at</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item, i) => (
-            <FileItem
-              key={i}
-              title={item.title}
-              file_url={item.file}
-              size={item.size}
-              created_at={item.created_at}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="table-auto">
+          <thead className="hidden">
+            <tr>
+              <th>title</th>
+              <th>Created at</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, i) => (
+              <FileItem
+                key={i}
+                title={item.title}
+                file_url={item.file}
+                size={item.size}
+                created_at={item.created_at}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   )
 }
