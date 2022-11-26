@@ -1,9 +1,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import Preview from "./Preview"
 import API from "../api"
 import { useUserContext } from "../context/UserContext"
-import axios from "axios"
 import FileList from "./FileList"
 import { useRouter } from "next/router"
 
@@ -16,13 +14,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true)
     const token = state.token
-    console.log(token)
-    const instance = axios.create({
-      baseURL: 'http://localhost:8000/api/',
-      timeout: 1000,
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    instance.get("files/").then(response => {
+    API.listFiles(token).then(response => {
       setLoading(false)
       setFiles(response.data.results)
     }).catch(error => {
