@@ -19,6 +19,19 @@ const apiSettings = {
       });
     return response;
   },
+  listFiles: async (token) => {
+    console.log(token);
+    const response = await axios_instance
+      .get("files/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch((error) => error.response);
+
+    return response;
+  },
   createFile: async (data, token) => {
     let form_data = new FormData();
     if (data.file) {

@@ -8,7 +8,7 @@ const Message = ({ type, message }) => {
     }
   }
   return (
-    <div class={`rounded-lg py-5 px-6 text-base mb-3 ${color(type)}`} role="alert">
+    <div className={`rounded-lg py-5 px-6 text-base mb-3 ${color(type)}`} role="alert">
       {message}
     </div>
   )

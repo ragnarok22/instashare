@@ -1,28 +1,49 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Preview from "./Preview"
+import API from "../api"
+import { useUserContext } from "../context/UserContext"
+import axios from "axios"
+import FileList from "./FileList"
 
 const Home = () => {
+  const { state } = useUserContext()
   const [files, setFiles] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    const token = state.token
+    const instance = axios.create({
+      baseURL: 'http://localhost:8000/api/',
+      timeout: 1000,
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    instance.get("files/").then(response => {
+      setLoading(false)
+      setFiles(response.data.results)
+    }).catch(error => {
+      console.log(error)
+    })
+  }, [state])
+
+  if (loading) {
+    return <p>Loading...</p>
+  }
+
+  console.log(files)
 
   return (
-    <section className="bg-gray-100 dark:bg-gray-900 py-2 px-12">
+    <div className="bg-gray-100 dark:bg-gray-900 py-2 px-12">
       {files.length > 0 ?
-        <div
-          className="grid grid-flow-row gap-8 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {files.map((file, i) => (
-            <div key={i}
-              className="my-1 rounded shadow-lg shadow-gray-200 dark:shadow-gray-900 bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1"
-            >
-              <Preview file={file} />
-            </div>
-          ))}
+        <div className="flex justify-center">
+          <FileList items={files} />
         </div>
         : <div className="my-4 text-neutral-600 text-2xl text-center">
           There are no files. Please <Link href="/upload" className="underline text-gray-600">Upload a file</Link>
         </div>
       }
-    </section>
+    </div>
   )
 }
 
