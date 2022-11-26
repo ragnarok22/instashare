@@ -14,5 +14,12 @@ export const UserReducer = (state, action) => {
         token: action.value,
       };
     }
+    case "logout": {
+      return {
+        ...state,
+        username: "",
+        token: "",
+      };
+    }
   }
 };

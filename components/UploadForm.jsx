@@ -40,6 +40,8 @@ const UploadForm = () => {
       router.push("/")
     } else if (response.status === 400) {
       console.error(response.data)
+    } else if (response.status === 401) {
+      router.push("/logout")
     }
   }
 

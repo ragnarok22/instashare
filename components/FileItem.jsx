@@ -18,7 +18,7 @@ const FileItem = ({ title, file_url, created_at, size }) => {
           <p className="text-gray-500 text-sm">{size}</p>
         </div>
       </td>
-      <td className="">{dayjs(created_at).fromNow(true)}</td>
+      <td className="">Created {dayjs(created_at).fromNow(true)} ago</td>
       <td className="flex items-center justify-center">
         <button className="p-1">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

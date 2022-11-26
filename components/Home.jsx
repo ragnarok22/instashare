@@ -5,8 +5,10 @@ import API from "../api"
 import { useUserContext } from "../context/UserContext"
 import axios from "axios"
 import FileList from "./FileList"
+import { useRouter } from "next/router"
 
 const Home = () => {
+  const router = useRouter()
   const { state } = useUserContext()
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(true)
@@ -23,7 +25,9 @@ const Home = () => {
       setLoading(false)
       setFiles(response.data.results)
     }).catch(error => {
-      console.log(error)
+      if (error.response.status === 401) {
+        router.push("/logout")
+      }
     })
   }, [state])
 
