@@ -16,6 +16,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true)
     const token = state.token
+    console.log(token)
     const instance = axios.create({
       baseURL: 'http://localhost:8000/api/',
       timeout: 1000,
@@ -34,8 +35,6 @@ const Home = () => {
   if (loading) {
     return <p>Loading...</p>
   }
-
-  console.log(files)
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 py-2 px-12">
