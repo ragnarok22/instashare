@@ -2,11 +2,23 @@ import Link from "next/link"
 import { useState } from "react"
 
 const RegisterForm = () => {
-  const [name, setName] = useState()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [confirmPassword, setConfirmPassword] = useState()
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    password: "",
+    password2: "",
+    email: ""
+  })
   const [loading, setLoading] = useState(false)
+
+  const updateInfo = (value, type) => {
+    const updatedValue = { [type]: value };
+    setUserInfo(userInfo => ({
+      ...userInfo,
+      ...updatedValue
+    }));
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -20,35 +32,48 @@ const RegisterForm = () => {
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <form className="bg-white px-6 py-8 rounded shadow-md text-black w-full" onSubmit={handleSubmit}>
           <h1 className="mb-8 text-3xl text-center">Sign up</h1>
-          <input
-            type="text"
-            className="block border border-gray-500 w-full p-3 rounded mb-4"
-            name="fullname"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="Full Name" />
+
+          <div className="flex w-full mb-4">
+            <input
+              type="text"
+              className="block border border-gray-500 w-full p-3 rounded mr-1"
+              value={userInfo.firstName}
+              onChange={e => updateInfo(e.target.value, "firstName")}
+              placeholder="First Name" />
+
+            <input
+              type="text"
+              className="block border border-gray-500 w-full p-3 rounded"
+              value={userInfo.lastName}
+              onChange={e => updateInfo(e.target.value, "lastName")}
+              placeholder="Last Name" />
+          </div>
 
           <input
             type="text"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
-            name="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            value={userInfo.username}
+            onChange={e => updateInfo(e.target.value, "username")}
+            placeholder="Username" />
+
+          <input
+            type="text"
+            className="block border border-gray-500 w-full p-3 rounded mb-4"
+            value={userInfo.email}
+            onChange={e => updateInfo(e.target.value, "email")}
             placeholder="Email" />
 
           <input
             type="password"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
-            name="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
+            value={userInfo.password}
+            onChange={e => updateInfo(e.target.value, "password")}
             placeholder="Password" />
           <input
             type="password"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
-            name="confirm_password"
-            value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
+            value={userInfo.password2}
+            onChange={e => updateInfo(e.target.value, "password2")}
             placeholder="Confirm Password" />
 
           <button
