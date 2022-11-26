@@ -27,12 +27,11 @@ const RouteGuard = ({ children }) => {
 
   function authCheck(url) {
     // redirect to login page if accessing a private page and not logged in
-    const publicPaths = ['/login']
+    const publicPaths = ['/login', '/register']
     const path = url.split('?')[0]
     const state = JSON.parse(localStorage.getItem("state"))
 
     if (!state.token && !publicPaths.includes(path)) {
-      console.log(`entro con ${state.token}`)
       setAuthorized(false)
       router.push({
         pathname: "/login",
