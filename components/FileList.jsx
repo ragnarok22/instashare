@@ -14,8 +14,8 @@ const FileList = ({ items }) => {
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="table-auto">
+      <div className="overflow-x-auto w-full">
+        <table className="table-auto w-full">
           <thead className="hidden">
             <tr>
               <th>title</th>
