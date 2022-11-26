@@ -4,6 +4,7 @@ import API from "../api"
 import { useUserContext } from "../context/UserContext"
 import FileList from "./FileList"
 import { useRouter } from "next/router"
+import Loading from "./Loading"
 
 const Home = () => {
   const router = useRouter()
@@ -20,18 +21,20 @@ const Home = () => {
     }).catch(error => {
       if (error.response.status === 401) {
         router.push("/logout")
+      } else {
+        console.error(error)
       }
     })
   }, [state])
 
   if (loading) {
-    return <p>Loading...</p>
+    return <Loading />
   }
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 py-2 px-12">
       {files.length > 0 ?
-        <div className="flex justify-center">
+        <div className="flex justify-center overflow-x-auto">
           <FileList items={files} />
         </div>
         : <div className="my-4 text-neutral-600 text-2xl text-center">
