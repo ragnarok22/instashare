@@ -21,12 +21,8 @@ const FileItem = ({ file, items, setItems }) => {
       router.push("/logout")
     }
     if (response.status === 204) {
-      // the file has been deleted
-      setItems(prev => {
-        return [
-          ...prev.filter(item => item.id !== file.id)
-        ]
-      })
+      // the file has been deleted, update the items
+      setItems(prev => ([...prev.filter(item => item.id !== file.id)]))
     }
   }
 
