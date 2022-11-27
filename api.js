@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import axios from "axios";
 
 const baseURL = process.env.API_URL || "http://localhost:8000/api/";
