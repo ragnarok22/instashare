@@ -17,6 +17,9 @@ const apiSettings = {
         return response;
       })
       .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          return { status: error.code };
+        }
         return error.response;
       });
     return response;

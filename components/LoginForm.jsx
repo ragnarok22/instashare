@@ -25,6 +25,11 @@ const LoginForm = ({ handleLogin }) => {
         type: "error",
         message: "Wrong username or password"
       })
+    } else if (response.status === "ERR_NETWORK") {
+      setMessage({
+        type: "error",
+        message: "Connection Error"
+      })
     }
   }
 
