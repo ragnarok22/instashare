@@ -31,7 +31,6 @@ const RegisterForm = () => {
         password: ["Passwords must match."]
       })
     } else {
-      console.log("entro")
       setErrors(current => {
         const { password, ...rest } = current
         return rest
@@ -58,6 +57,7 @@ const RegisterForm = () => {
         // form error
         setErrors(response.data)
       }
+      setLoading(false)
     })
   }
 
