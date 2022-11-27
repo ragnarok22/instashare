@@ -35,6 +35,7 @@ const FileItem = ({ file, items, setItems }) => {
             href={file.file}
             className="text-lg text-blue-700 underline"
             target="_blank"
+            rel="noreferrer"
           >
             {file.title}
           </a>

@@ -32,8 +32,9 @@ const Preview = ({ file }) => {
           </svg>
         )}
         {file.type.includes("image/") && (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img className="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
-            src={loadFile(file)} />
+            src={loadFile(file)} alt={file.name} />
         )}
         {file.type.includes("video/") && (
           <video className="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview"

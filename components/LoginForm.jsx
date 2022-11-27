@@ -62,7 +62,7 @@ const LoginForm = ({ handleLogin }) => {
         </form>
 
         <div className="text-gray-dark mt-6">
-          Don't have an account? {" "}
+          Don&apos;t have an account? {" "}
           <Link className="no-underline border-b border-blue-400 text-blue-400" href="/register">
             Register
           </Link>.

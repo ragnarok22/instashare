@@ -22,6 +22,7 @@ const Home = () => {
       setLoading(false)
       setFiles(response.data.results)
     })
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [state])
 
   if (loading) {
