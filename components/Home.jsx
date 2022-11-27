@@ -8,7 +8,7 @@ import Loading from "./Loading"
 
 const Home = () => {
   const router = useRouter()
-  const { state } = useUserContext()
+  const { state, dispatch } = useUserContext()
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -18,10 +18,13 @@ const Home = () => {
     const token = state.token
     API.listFiles(token).then(response => {
       if (response.status === 401) {
-        router.push("/logout")
+        dispatch({ type: "logout" })
+        router.push("/login")
+      }
+      if (response.status === 200) {
+        setFiles(response.data.results)
       }
       setLoading(false)
-      setFiles(response.data.results)
     })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [state])

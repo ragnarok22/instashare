@@ -46,7 +46,12 @@ const apiSettings = {
         },
       })
       .then((response) => response)
-      .catch((error) => error.response);
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          return { status: error.code };
+        }
+        return error.response;
+      });
 
     return response;
   },

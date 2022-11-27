@@ -17,7 +17,7 @@ export const NavLink = ({ children, href }) => {
         isCurrent
           ? 'text-blue-600 font-semibold'
           : 'text-gray-600',
-        'flex text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-300'
+        'flex text-gray-600 px-3 py-2 hover:text-blue-500 cursor-pointer transition-colors duration-300'
       )}
       aria-current={isCurrent ? 'page' : undefined}
     >
