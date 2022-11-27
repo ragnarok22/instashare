@@ -6,6 +6,7 @@ import API from "../api"
 import { useUserContext } from "../context/UserContext"
 import { useRouter } from "next/router"
 import UpdateModal from "./UpdateModal"
+import { getIconFileType } from "../utils"
 
 const FileItem = ({ file, items, setItems }) => {
   dayjs.extend(relativeTime)
@@ -49,10 +50,17 @@ const FileItem = ({ file, items, setItems }) => {
     setShowUpdate(false)
   }
 
+  const getFileType = (filename) => {
+    const extension = filename.split(".").pop().toLowerCase()
+    return getIconFileType(extension)
+  }
+
   return (
     <tr>
       <td className="flex items-center my-2">
-        <p className="pr-3">type</p>
+        <p className="pr-3">
+          {getFileType(file.file)}
+        </p>
         <div className="flex flex-col">
           <a
             href={file.file}
