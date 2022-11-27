@@ -1,4 +1,4 @@
-import { data } from "autoprefixer";
+import jwt from "jwt-decode";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import LoginForm from "../components/LoginForm";
@@ -17,10 +17,19 @@ export default function Login() {
   })
 
   const handleLogin = (data) => {
-    dispatch({ type: "login", value: data.token })
+    const dataJwt = jwt(data.token)
+    const user = {
+      email: dataJwt.email,
+      first_name: dataJwt.first_name,
+      last_name: dataJwt.last_name,
+      username: dataJwt.username,
+      token: data.token
+    }
+    dispatch({ type: "login", value: user })
+
 
     const returnUrl = router.query.returnUrl || "/"
-    router.push(returnUrl)
+    // router.push(returnUrl)
   }
   return (
     <BaseLayout>

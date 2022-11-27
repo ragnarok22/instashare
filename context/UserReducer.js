@@ -1,6 +1,9 @@
 export const initialState = {
   username: "",
   token: "",
+  first_name: "",
+  last_name: "",
+  email: "",
 };
 
 export const UserReducer = (state, action) => {
@@ -9,16 +12,19 @@ export const UserReducer = (state, action) => {
       return action.value;
     }
     case "login": {
+      console.log(action);
       return {
         ...state,
-        token: action.value,
+        ...action.value,
       };
     }
     case "logout": {
       return {
-        ...state,
         username: "",
         token: "",
+        first_name: "",
+        last_name: "",
+        email: "",
       };
     }
   }

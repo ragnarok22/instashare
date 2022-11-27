@@ -31,6 +31,13 @@ const apiSettings = {
       .catch((error) => error.response);
     return response;
   },
+  logout: async () => {
+    const response = await axios_instance
+      .post("logout/", {})
+      .then((response) => response)
+      .catch((error) => error.response);
+    return response;
+  },
   listFiles: async (token) => {
     const response = await axios_instance
       .get("files/", {
