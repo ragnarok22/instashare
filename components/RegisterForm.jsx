@@ -24,6 +24,21 @@ const RegisterForm = () => {
     }));
   }
 
+  const checkPasswords = (e) => {
+    updateInfo(e.target.value, "password2")
+    if (userInfo.password !== e.target.value) {
+      setErrors({
+        password: ["Passwords must match."]
+      })
+    } else {
+      console.log("entro")
+      setErrors(current => {
+        const { password, ...rest } = current
+        return rest
+      })
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
@@ -71,6 +86,7 @@ const RegisterForm = () => {
             <input
               type="text"
               className="block border border-gray-500 w-full p-3 rounded mr-1"
+              required
               value={userInfo.firstName}
               onChange={e => updateInfo(e.target.value, "firstName")}
               placeholder="First Name" />
@@ -78,6 +94,7 @@ const RegisterForm = () => {
             <input
               type="text"
               className="block border border-gray-500 w-full p-3 rounded"
+              required
               value={userInfo.lastName}
               onChange={e => updateInfo(e.target.value, "lastName")}
               placeholder="Last Name" />
@@ -86,13 +103,15 @@ const RegisterForm = () => {
           <input
             type="text"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
+            required
             value={userInfo.username}
             onChange={e => updateInfo(e.target.value, "username")}
             placeholder="Username" />
 
           <input
-            type="text"
+            type="email"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
+            required
             value={userInfo.email}
             onChange={e => updateInfo(e.target.value, "email")}
             placeholder="Email" />
@@ -100,18 +119,21 @@ const RegisterForm = () => {
           <input
             type="password"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
+            required
             value={userInfo.password}
             onChange={e => updateInfo(e.target.value, "password")}
             placeholder="Password" />
           <input
             type="password"
             className="block border border-gray-500 w-full p-3 rounded mb-4"
+            required
             value={userInfo.password2}
-            onChange={e => updateInfo(e.target.value, "password2")}
+            onChange={checkPasswords}
             placeholder="Confirm Password" />
 
           <button
             type="submit"
+            disabled={loading || errors.password}
             className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"
           >
             {loading ? "Loading" : "Create Account"}
