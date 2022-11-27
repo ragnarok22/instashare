@@ -57,6 +57,21 @@ const apiSettings = {
       return newFile;
     }
   },
+  deleteFile: async (file_id, token) => {
+    const response = await axios_instance
+      .delete(`/files/${file_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+    return response;
+  },
 };
 
 export default apiSettings;

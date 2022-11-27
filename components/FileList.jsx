@@ -1,6 +1,6 @@
 import FileItem from "./FileItem"
 
-const FileList = ({ items }) => {
+const FileList = ({ items, setItems }) => {
   return (
     <section className="w-full lg:w-3/4">
       <div className="flex w-full items-center justify-between mb-4">
@@ -24,13 +24,12 @@ const FileList = ({ items }) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, i) => (
+            {items.map((item) => (
               <FileItem
-                key={i}
-                title={item.title}
-                file_url={item.file}
-                size={item.size}
-                created_at={item.created_at}
+                key={item.id}
+                file={item}
+                items={items}
+                setItems={setItems}
               />
             ))}
           </tbody>
