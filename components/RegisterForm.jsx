@@ -1,7 +1,10 @@
 import Link from "next/link"
+import Router, { useRouter } from "next/router"
 import { useState } from "react"
+import API from "../api"
 
 const RegisterForm = () => {
+  const router = useRouter()
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
@@ -11,6 +14,7 @@ const RegisterForm = () => {
     email: ""
   })
   const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const updateInfo = (value, type) => {
     const updatedValue = { [type]: value };
@@ -24,12 +28,42 @@ const RegisterForm = () => {
     e.preventDefault()
     setLoading(true)
 
-    // create user
+    const data = {
+      first_name: userInfo.firstName,
+      last_name: userInfo.lastName,
+      username: userInfo.username,
+      email: userInfo.email,
+      password: userInfo.password,
+      password2: userInfo.password2
+    }
+    API.signup(data).then(response => {
+      if (response.status === 201) {
+        router.push("/login")
+      } else if (response.status === 400) {
+        // form error
+        setErrors(response.data)
+      }
+    })
   }
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+        <div className="flex flex-col">
+          {
+            errors && Object.keys(errors).map((field, i) => (
+              <div key={i} className="text-sm text-red-600">
+                {field}
+                <ul className="list-disc">
+                  {errors[field].map((error, j) => (
+                    <li key={j} className="mb-2 w-max text-red-400">{error}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+
         <form className="bg-white px-6 py-8 rounded shadow-md text-black w-full" onSubmit={handleSubmit}>
           <h1 className="mb-8 text-3xl text-center">Sign up</h1>
 

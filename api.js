@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import axios from "axios";
 
 const axios_instance = axios.create({
@@ -17,6 +18,13 @@ const apiSettings = {
       .catch((error) => {
         return error.response;
       });
+    return response;
+  },
+  signup: async (data) => {
+    const response = await axios_instance
+      .post("register/", data)
+      .then((response) => response)
+      .catch((error) => error.response);
     return response;
   },
   listFiles: async (token) => {
