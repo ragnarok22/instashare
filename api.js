@@ -78,8 +78,26 @@ const apiSettings = {
   },
   deleteFile: async (file_id, token) => {
     const response = await axios_instance
-      .delete(`/files/${file_id}`, {
+      .delete(`files/${file_id}`, {
         headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+    return response;
+  },
+  updateFile: async (file_id, title, token) => {
+    let form_data = new FormData();
+    form_data.append("title", title);
+    const response = await axios_instance
+      .patch(`files/${file_id}/`, form_data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       })
