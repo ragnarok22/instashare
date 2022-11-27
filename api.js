@@ -1,8 +1,10 @@
 import { data } from "autoprefixer";
 import axios from "axios";
 
+const baseURL = process.env.API_URL || "http://localhost:8000/api/";
+
 const axios_instance = axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL,
   headers: {
     Accept: "application/json",
   },
