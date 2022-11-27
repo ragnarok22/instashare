@@ -2,11 +2,11 @@ import Navbar from "../components/navbar"
 import BaseLayout from "./BaseLayout"
 import Footer from "../components/Footer"
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children, className }) => {
   return (
     <BaseLayout>
       <Navbar />
-      <div className="py-16 px-2">
+      <div className={`py-16 px-2 ${className || ""}`}>
         {children}
       </div>
       <Footer />
