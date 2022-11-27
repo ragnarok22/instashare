@@ -16,14 +16,11 @@ const Home = () => {
     setLoading(true)
     const token = state.token
     API.listFiles(token).then(response => {
+      if (response.status === 401) {
+        router.push("/logout")
+      }
       setLoading(false)
       setFiles(response.data.results)
-    }).catch(error => {
-      if (error.response.status === 401) {
-        router.push("/logout")
-      } else {
-        console.error(error)
-      }
     })
   }, [state])
 

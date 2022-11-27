@@ -20,7 +20,6 @@ const apiSettings = {
     return response;
   },
   listFiles: async (token) => {
-    console.log(token);
     const response = await axios_instance
       .get("files/", {
         headers: {
