@@ -32,7 +32,7 @@ const RouteGuard = ({ children }) => {
     const path = url.split('?')[0]
     const state = JSON.parse(localStorage.getItem("state"))
 
-    if (!state.token && !publicPaths.includes(path)) {
+    if (state !== null && !state.token && !publicPaths.includes(path)) {
       setAuthorized(false)
       router.push({
         pathname: "/login",

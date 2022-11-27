@@ -13,6 +13,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!router.isReady) return;
     setLoading(true)
     const token = state.token
     API.listFiles(token).then(response => {
@@ -31,7 +32,7 @@ const Home = () => {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 py-2 px-2 lg:px-12">
-      {files.length > 0 ?
+      {files && files.length > 0 ?
         <div className="flex justify-center">
           <FileList items={files} setItems={setFiles} />
         </div>
