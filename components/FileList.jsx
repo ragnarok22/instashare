@@ -2,6 +2,8 @@ import FileItem from "./FileItem"
 import API from "../api"
 import { useEffect, useState } from "react"
 import { useUserContext } from "../context/UserContext"
+import DownloadModal from "./DownloadModal"
+import { useRouter } from "next/router"
 
 const base_url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/"
 
@@ -10,15 +12,24 @@ const FileList = ({ items, setItems }) => {
   const { state } = useUserContext()
   const [checkResponse, setCheckResponse] = useState({})
   const [intervalId, setIntervalId] = useState()
+  const [showModal, setShowModal] = useState(false)
+  const router = useRouter()
 
   const handleDownloadAll = async (e) => {
     setLoading(true)
     const response = await API.downloadAll(state.token)
 
     console.log(response)
-    if (response.status === 400) {
+    if (response.status === 401) {
+      router.push("/login")
+    } else if (response.status === 400) {
       if (response.data.url) {
         // show modal to select if create a new download file or download the old one
+        setShowModal(true)
+        setCheckResponse({
+          status: response.status,
+          data: response.data
+        })
       } else {
         // still processing the files
       }
@@ -40,11 +51,20 @@ const FileList = ({ items, setItems }) => {
   }
 
   useEffect(() => {
-    if (checkResponse.status === 200) {
+    if (intervalId && checkResponse.status === 200) {
       clearInterval(intervalId)
       window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
     }
   }, [checkResponse])
+
+  const handleDownload = (e) => {
+    console.log(checkResponse)
+    window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
+  }
+
+  const handleNewDownload = (e) => {
+
+  }
 
 
   return (
@@ -91,6 +111,7 @@ const FileList = ({ items, setItems }) => {
           </tbody>
         </table>
       </div>
+      {showModal && <DownloadModal onClose={() => setShowModal(false)} onDownload={handleDownload} onNewDownload={handleNewDownload} />}
     </section>
   )
 }
