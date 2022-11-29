@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/";
+const baseURL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/" + "api/";
 
 const axios_instance = axios.create({
   baseURL,
@@ -112,6 +113,30 @@ const apiSettings = {
       .catch((error) => {
         return error.response;
       });
+    return response;
+  },
+  downloadAll: async (token) => {
+    const response = await axios_instance
+      .get("/files/compress/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch((error) => {
+        return error.response;
+      });
+    return response;
+  },
+  checkDownload: async (token) => {
+    const response = await axios_instance
+      .get("/files/compress/check/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch((error) => error.response);
     return response;
   },
 };
