@@ -26,5 +26,11 @@ export const UserReducer = (state, action) => {
         email: "",
       };
     }
+    case "update-user": {
+      return {
+        ...state,
+        ...action.value,
+      };
+    }
   }
 };

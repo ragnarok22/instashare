@@ -1,9 +1,21 @@
 import Link from "next/link";
+import { useEffect } from "react";
 import { useUserContext } from "../../context/UserContext";
 import DashboardLayout from "../../layouts/DashboardLayout";
+import API from "../../api";
 
 export default function Profile() {
-  const { state } = useUserContext()
+  const { state, dispatch } = useUserContext()
+
+  useEffect(() => {
+    (async () => {
+      const response = await API.getUser(state.token)
+
+      if (response.status === 200) {
+        dispatch({ type: "update-user", value: response.data })
+      }
+    })()
+  }, [])
 
   return (
     <DashboardLayout className="flex justify-center">
