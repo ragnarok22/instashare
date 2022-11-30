@@ -3,11 +3,13 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import API from "../../api";
 import { useUserContext } from "../../context/UserContext";
 import Loading from "../../components/Loading"
+import { useRouter } from "next/router";
 
 export default function UpdateProfile() {
   const [userInfo, setUserInfo] = useState({})
   const { state } = useUserContext()
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     (async () => {
@@ -31,7 +33,7 @@ export default function UpdateProfile() {
     )
 
     const response = await API.updateUser(userInfo.id, data, state.token)
-    console.log(response)
+    router.push("/profile")
 
     setLoading(false)
   }
@@ -45,7 +47,7 @@ export default function UpdateProfile() {
   }
 
   if (loading) {
-    return <Loading />
+    return
   }
 
   return (
@@ -122,7 +124,7 @@ export default function UpdateProfile() {
               <label className="w-full text-gray-700 mr-1">
                 About yourself
                 <input
-                  type="url"
+                  type="text"
                   placeholder="Ex: Software Engineer"
                   className="w-full p-2 mt-1 border border-solid border-gray-300 rounded transition ease-in-out m-0 px-3 py-1.5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   value={userInfo.about ?? ""}
@@ -140,9 +142,10 @@ export default function UpdateProfile() {
 
               <button
                 type="submit"
+                disabled={loading}
                 className="w-1/3 bg-blue-700 rounded-xl p-2 text-white"
               >
-                Save
+                {loading ? "Loading" : "Save"}
               </button>
             </div>
           </form>
