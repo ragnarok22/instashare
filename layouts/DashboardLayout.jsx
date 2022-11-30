@@ -6,7 +6,7 @@ const DashboardLayout = ({ children, className }) => {
   return (
     <BaseLayout>
       <Navbar />
-      <div className={`py-16 px-2 ${className || ""}`}>
+      <div className={`py-6 px-2 ${className || ""}`}>
         {children}
       </div>
       <Footer />
