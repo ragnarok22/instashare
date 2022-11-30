@@ -30,7 +30,10 @@ export default function Profile() {
         <div className="space-y-4 text-center divide-y divide-gray-700">
           <div className="my-2 space-y-1">
             <h2 className="text-xl font-semibold sm:text-2xl">{state.first_name} {state.last_name}</h2>
-            <p className="px-5 text-xs sm:text-base dark:text-gray-400">Full-stack developer</p>
+            {
+              state.about &&
+              <p className="px-5 text-xs sm:text-base dark:text-gray-400">{state.about}</p>
+            }
           </div>
           <div className="flex justify-center pt-2 space-x-4 align-center">
             {
