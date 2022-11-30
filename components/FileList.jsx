@@ -15,11 +15,22 @@ const FileList = ({ items, setItems }) => {
   const [showModal, setShowModal] = useState(false)
   const router = useRouter()
 
+  const startPolling = () => {
+    const polling = async () => {
+      const check_response = await API.checkDownload(state.token)
+      setCheckResponse({
+        status: check_response.status,
+        data: check_response.data
+      })
+      return check_response
+    }
+    setIntervalId(setInterval(polling, 1000))
+  }
+
   const handleDownloadAll = async (e) => {
     setLoading(true)
     const response = await API.downloadAll(state.token)
 
-    console.log(response)
     if (response.status === 401) {
       router.push("/login")
     } else if (response.status === 400) {
@@ -30,39 +41,38 @@ const FileList = ({ items, setItems }) => {
           status: response.status,
           data: response.data
         })
+        setLoading(false)
       } else {
         // still processing the files
+        setLoading(true)
       }
     } else if (response.status === 200) {
       // the processint has started... Polling
-      const polling = async () => {
-        const check_response = await API.checkDownload(state.token)
-        console.log(check_response)
-        setCheckResponse({
-          status: check_response.status,
-          data: check_response.data
-        })
-        return check_response
-      }
-      setIntervalId(setInterval(polling, 1000))
-
+      startPolling()
     }
-    setLoading(false)
   }
 
   useEffect(() => {
     if (intervalId && checkResponse.status === 200) {
       clearInterval(intervalId)
+      setLoading(false)
       window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
     }
   }, [checkResponse])
 
   const handleDownload = (e) => {
-    console.log(checkResponse)
+    showModal(false)
     window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
   }
 
-  const handleNewDownload = (e) => {
+  const handleNewDownload = async (e) => {
+    const response = await API.forceDownload(state.token)
+
+    if (response.status === 200) {
+      startPolling()
+      setLoading(true)
+      setShowModal(false)
+    }
 
   }
 

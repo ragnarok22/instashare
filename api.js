@@ -139,6 +139,17 @@ const apiSettings = {
       .catch((error) => error.response);
     return response;
   },
+  forceDownload: async (token) => {
+    const response = await axios_instance
+      .get("/files/compress/force", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch((error) => error.response);
+    return response;
+  },
 };
 
 export default apiSettings;
