@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const DEBUG = process.env.NODE_ENV === "development";
 const baseURL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/" + "api/";
 
@@ -10,6 +11,9 @@ axios.defaults.headers.common["Accept"] = "application/json";
 // add a request interceptor
 axios.interceptors.request.use(
   (config) => {
+    if (DEBUG) {
+      console.info("✉️ ", config);
+    }
     return config;
   },
   (error) => {
@@ -23,11 +27,35 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    // redirect to login when a request raises an Unauthorized error
-    if (error.response.status === 401) {
-      window.location.href = "/login";
+    // return a message when a connection error is produced
+    if (error.code === "ERR_NETWORK") {
+      return Promise.reject({
+        response: {
+          status: "NETWORK_ERROR",
+          type: "error",
+          message: "Connection Error",
+        },
+      });
+      // redirect to login when a request raises an Unauthorized error
+    } else if (error.response.status === 401) {
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
+      } else {
+        return Promise.reject(error);
+      }
+      // return a message when a server error is produced
+    } else if (error.response.status >= 500) {
+      return Promise.reject({
+        response: {
+          status: "SERVER_ERROR",
+          type: "error",
+          message: "Internal server error",
+        },
+      });
+      // return the current error
+    } else {
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   }
 );
 
@@ -42,9 +70,6 @@ const apiSettings = {
         return response;
       })
       .catch((error) => {
-        if (error.code === "ERR_NETWORK") {
-          return { status: error.code };
-        }
         return error.response;
       });
     return response;
@@ -63,24 +88,17 @@ const apiSettings = {
       .catch((error) => error.response);
     return response;
   },
-  listFiles: async (token) => {
+  listFiles: async () => {
     const response = await axios
-      .get("files/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("files/")
       .then((response) => response)
       .catch((error) => {
-        if (error.code === "ERR_NETWORK") {
-          return { status: error.code };
-        }
         return error.response;
       });
 
     return response;
   },
-  createFile: async (data, token) => {
+  createFile: async (data) => {
     let form_data = new FormData();
     if (data.file) {
       form_data.append("file", data.file, data.file.name);
@@ -90,7 +108,6 @@ const apiSettings = {
         .post("files/", form_data, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -106,13 +123,9 @@ const apiSettings = {
       return newFile;
     }
   },
-  deleteFile: async (file_id, token) => {
+  deleteFile: async (file_id) => {
     const response = await axios
-      .delete(`files/${file_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .delete(`files/${file_id}/`)
       .then((response) => {
         return response;
       })
@@ -121,14 +134,13 @@ const apiSettings = {
       });
     return response;
   },
-  updateFile: async (file_id, title, token) => {
+  updateFile: async (file_id, title) => {
     let form_data = new FormData();
     form_data.append("title", title);
     const response = await axios
       .patch(`files/${file_id}/`, form_data, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -139,59 +151,39 @@ const apiSettings = {
       });
     return response;
   },
-  downloadAll: async (token) => {
+  downloadAll: async () => {
     const response = await axios
-      .get("/files/compress/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("/files/compress/")
       .then((response) => response)
       .catch((error) => {
         return error.response;
       });
     return response;
   },
-  checkDownload: async (token) => {
+  checkDownload: async () => {
     const response = await axios
-      .get("/files/compress/check/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("/files/compress/check/")
       .then((response) => response)
       .catch((error) => error.response);
     return response;
   },
-  forceDownload: async (token) => {
+  forceDownload: async () => {
     const response = await axios
-      .get("/files/compress/force", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("/files/compress/force/")
       .then((response) => response)
       .catch((error) => error.response);
     return response;
   },
-  getUser: async (token) => {
+  getUser: async () => {
     const response = await axios
-      .get("users/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("users/me/")
       .then((response) => response)
       .catch((error) => error.response);
     return response;
   },
-  updateUser: async (user_id, data, token) => {
+  updateUser: async (user_id, data) => {
     const response = await axios
-      .patch(`/users/${user_id}/`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .patch(`/users/${user_id}/`, data)
       .then((response) => response)
       .catch((error) => error.response);
     return response;
