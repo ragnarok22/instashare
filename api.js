@@ -7,10 +7,16 @@ const baseURL =
 // set default values
 axios.defaults.baseURL = baseURL;
 axios.defaults.headers.common["Accept"] = "application/json";
+axios.defaults.headers.common["Content-Type"] = "application/json";
 
 // add a request interceptor
 axios.interceptors.request.use(
   (config) => {
+    // get the Bearer token
+    const state = JSON.parse(localStorage.getItem("state"));
+    if (state?.token) {
+      config.headers.Authorization = `Bearer ${state.token}`;
+    }
     if (DEBUG) {
       console.info("✉️ ", config);
     }
@@ -38,6 +44,7 @@ axios.interceptors.response.use(
       });
       // redirect to login when a request raises an Unauthorized error
     } else if (error.response.status === 401) {
+      localStorage.removeItem("state");
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       } else {
@@ -60,9 +67,6 @@ axios.interceptors.response.use(
 );
 
 const apiSettings = {
-  setToken: (token) => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  },
   login: async (data) => {
     const response = await axios
       .post("login/", data)

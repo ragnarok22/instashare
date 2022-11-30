@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useUserContext } from "../context/UserContext";
 
 const RouteGuard = ({ children }) => {
   const router = useRouter()
   const [authorized, setAuthorized] = useState(false)
-  const { state } = useUserContext()
 
   useEffect(() => {
     // on initial load - run auth check
@@ -33,6 +31,7 @@ const RouteGuard = ({ children }) => {
     const state = JSON.parse(localStorage.getItem("state"))
 
     if ((!state || !state.token) && !publicPaths.includes(path)) {
+      console.log("redirect by RouteGuard")
       setAuthorized(false)
       router.push({
         pathname: "/login",

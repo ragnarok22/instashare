@@ -16,7 +16,6 @@ const LoginForm = ({ handleLogin }) => {
       username, password
     })
     setLoading(false)
-    console.log(response)
     if (response.status === "NETWORK_ERROR") {
       setMessage({
         type: response.type,
@@ -24,7 +23,6 @@ const LoginForm = ({ handleLogin }) => {
       })
     } else if (response.status === 200) {
       const token = response.data.access;
-      API.setToken(token)
       handleLogin({ token })
     } else if (response.status === 401) {
       setMessage({

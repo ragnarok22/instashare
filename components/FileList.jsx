@@ -17,7 +17,7 @@ const FileList = ({ items, setItems }) => {
 
   const startPolling = () => {
     const polling = async () => {
-      const check_response = await API.checkDownload(state.token)
+      const check_response = await API.checkDownload()
       setCheckResponse({
         status: check_response.status,
         data: check_response.data
@@ -29,11 +29,9 @@ const FileList = ({ items, setItems }) => {
 
   const handleDownloadAll = async (e) => {
     setLoading(true)
-    const response = await API.downloadAll(state.token)
+    const response = await API.downloadAll()
 
-    if (response.status === 401) {
-      router.push("/login")
-    } else if (response.status === 400) {
+    if (response.status === 400) {
       if (response.data.url) {
         // show modal to select if create a new download file or download the old one
         setShowModal(true)
@@ -61,12 +59,12 @@ const FileList = ({ items, setItems }) => {
   }, [checkResponse])
 
   const handleDownload = (e) => {
-    showModal(false)
+    setShowModal(false)
     window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
   }
 
   const handleNewDownload = async (e) => {
-    const response = await API.forceDownload(state.token)
+    const response = await API.forceDownload()
 
     if (response.status === 200) {
       startPolling()

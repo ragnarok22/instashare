@@ -15,12 +15,7 @@ const Home = () => {
   useEffect(() => {
     if (!router.isReady) return;
     setLoading(true)
-    const token = state.token
-    API.listFiles(token).then(response => {
-      if (response.status === 401) {
-        dispatch({ type: "logout" })
-        router.push("/login")
-      }
+    API.listFiles().then(response => {
       if (response.status === 200) {
         setFiles(response.data.results)
       }

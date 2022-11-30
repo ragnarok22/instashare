@@ -3,7 +3,6 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { useState } from "react"
 import DeleteModal from "./DeleteModal"
 import API from "../api"
-import { useUserContext } from "../context/UserContext"
 import { useRouter } from "next/router"
 import UpdateModal from "./UpdateModal"
 import { getIconFileType } from "../utils"
@@ -13,16 +12,12 @@ const FileItem = ({ file, items, setItems }) => {
   const [showDelete, setShowDelete] = useState()
   const [showUpdate, setShowUpdate] = useState()
   const [loading, setLoading] = useState(false)
-  const { state } = useUserContext()
   const router = useRouter()
 
   const handleDelete = async (e) => {
     setLoading(true)
-    const response = await API.deleteFile(file.id, state.token)
+    const response = await API.deleteFile(file.id)
 
-    if (response.status === 401) {
-      router.push("/login")
-    }
     if (response.status === 204) {
       // the file has been deleted, update the items
       setItems(prev => ([...prev.filter(item => item.id !== file.id)]))
@@ -32,11 +27,7 @@ const FileItem = ({ file, items, setItems }) => {
   const handleUpdate = async (e, title) => {
     setLoading(true)
     e.preventDefault()
-    const response = await API.updateFile(file.id, title, state.token)
-
-    if (response.status === 401) {
-      router.push("/login")
-    }
+    const response = await API.updateFile(file.id, title)
 
     if (response.status === 200) {
       setItems(items.map(item => {

@@ -14,7 +14,7 @@ export default function Login() {
     if (state.token) {
       router.push("/")
     }
-  })
+  }, [])
 
   const handleLogin = (data) => {
     const dataJwt = jwt(data.token)
@@ -29,7 +29,7 @@ export default function Login() {
 
 
     const returnUrl = router.query.returnUrl || "/"
-    // router.push(returnUrl)
+    router.push(returnUrl)
   }
   return (
     <BaseLayout>
