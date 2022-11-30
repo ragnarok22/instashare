@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { useUserContext } from "../context/UserContext";
-import DashboardLayout from "../layouts/DashboardLayout";
+import { useUserContext } from "../../context/UserContext";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 export default function Profile() {
   const { state } = useUserContext()

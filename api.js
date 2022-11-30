@@ -150,6 +150,28 @@ const apiSettings = {
       .catch((error) => error.response);
     return response;
   },
+  getUser: async (token) => {
+    const response = await axios_instance
+      .get("users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch((error) => error.response);
+    return response;
+  },
+  updateUser: async (user_id, data, token) => {
+    const response = await axios_instance
+      .patch(`/users/${user_id}/`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch((error) => error.response);
+    return response;
+  },
 };
 
 export default apiSettings;
