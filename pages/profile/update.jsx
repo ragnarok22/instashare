@@ -9,17 +9,18 @@ export default function UpdateProfile() {
   const [userInfo, setUserInfo] = useState({})
   const { state } = useUserContext()
   const [loading, setLoading] = useState(false)
+  const [loadingPage, setLoadingPage] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
     (async () => {
-      setLoading(true)
+      setLoadingPage(true)
       const response = await API.getUser(state.token)
 
       if (response.status === 200) {
         setUserInfo(response.data)
       }
-      setLoading(false)
+      setLoadingPage(false)
     })()
   }, [])
 
@@ -46,8 +47,8 @@ export default function UpdateProfile() {
     }));
   }
 
-  if (loading) {
-    return
+  if (loadingPage) {
+    return <Loading />
   }
 
   return (
