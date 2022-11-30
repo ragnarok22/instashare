@@ -7,6 +7,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { classNames } from "../../utils"
 import Link from "next/link"
+import Image from "next/image"
+import defaultImage from "../../public/default.jpg"
 
 const Navbar = () => {
   const router = useRouter()
@@ -44,14 +46,9 @@ const Navbar = () => {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="block h-8 w-auto lg:hidden"
+                    className="hidden h-8 w-auto md:block"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    alt="InstaShare"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
@@ -71,11 +68,11 @@ const Navbar = () => {
                     <p className="text-gray-600 mx-2">Welcome {state.first_name}</p>
                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 focus:ring-offset-gray-200">
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
+                      {
+                        state.picture
+                          ? <Image src={state.picture} className="rounded-full" width="32" height="32" alt={state.username} />
+                          : <Image src={defaultImage} className="rounded-full" width="33" height="32" alt={state.username} />
+                      }
                     </Menu.Button>
                   </div>
                   <Transition

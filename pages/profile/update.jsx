@@ -4,6 +4,9 @@ import API from "../../api";
 import { useUserContext } from "../../context/UserContext";
 import Loading from "../../components/Loading"
 import { useRouter } from "next/router";
+import defaultImage from "../../public/default.jpg"
+import Image from "next/image";
+
 
 export default function UpdateProfile() {
   const [userInfo, setUserInfo] = useState({})
@@ -58,7 +61,11 @@ export default function UpdateProfile() {
     <DashboardLayout className="flex justify-center">
       <div className="flex w-full lg:w-11/12 flex-col md:flex-row">
         <div className="flex flex-col justify-start items-center h-fit bg-gray-50 p-4 pb-2 rounded-lg w-full md:w-1/4 mb-3 md:mr-3 shadow-sm hover:shadow-md transition-all duration-300">
-          <img src="https://flowbite.com/application-ui/demo/images/users/jese-leos-2x.png" width="300px" height="300px" />
+          {
+            userInfo.picture
+              ? <Image src={state.picture} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="300px" height="300px" alt={state.username} />
+              : <Image src={defaultImage} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="300px" height="300px" alt={state.username} />
+          }
           <h2 className="text-center text-lg font-medium mt-3">{userInfo?.get_full_name}</h2>
         </div>
 

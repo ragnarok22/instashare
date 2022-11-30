@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import { useUserContext } from "../../context/UserContext";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import API from "../../api";
+import defaultImage from "../../public/default.jpg"
+import Image from "next/image";
+
 
 export default function Profile() {
   const { state, dispatch } = useUserContext()
@@ -26,7 +29,12 @@ export default function Profile() {
           </svg>
         </Link>
 
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" />
+        {
+          state.picture
+            ? <Image src={state.picture} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="32" height="32" alt={state.username} />
+            : <Image src={defaultImage} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="33" height="32" alt={state.username} />
+        }
+
         <div className="space-y-4 text-center divide-y divide-gray-700">
           <div className="my-2 space-y-1">
             <h2 className="text-xl font-semibold sm:text-2xl">{state.first_name} {state.last_name}</h2>
