@@ -29,11 +29,7 @@ export default function Profile() {
           </svg>
         </Link>
 
-        {
-          state.picture
-            ? <Image src={state.picture} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="32" height="32" alt={state.username} />
-            : <Image src={defaultImage} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="33" height="32" alt={state.username} />
-        }
+        <Image src={state?.picture || defaultImage} className="mx-auto rounded-full dark:bg-gray-500 aspect-square" width="128" height="128" alt={state.username} />
 
         <div className="space-y-4 text-center divide-y divide-gray-700">
           <div className="my-2 space-y-1">

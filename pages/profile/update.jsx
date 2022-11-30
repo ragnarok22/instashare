@@ -19,6 +19,7 @@ export default function UpdateProfile() {
     (async () => {
       setLoadingPage(true)
       const response = await API.getUser(state.token)
+      console.log(response)
 
       if (response.status === 200) {
         setUserInfo(response.data)
@@ -63,8 +64,8 @@ export default function UpdateProfile() {
         <div className="flex flex-col justify-start items-center h-fit bg-gray-50 p-4 pb-2 rounded-lg w-full md:w-1/4 mb-3 md:mr-3 shadow-sm hover:shadow-md transition-all duration-300">
           {
             userInfo.picture
-              ? <Image src={state.picture} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="300px" height="300px" alt={state.username} />
-              : <Image src={defaultImage} className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square" width="300px" height="300px" alt={state.username} />
+              ? <Image src={state.picture} className="aspect-square rounded" width="300" height="300" alt={state.username} />
+              : <Image src={defaultImage} className="aspect-square rounded" width="300" height="300" alt={state.username} />
           }
           <h2 className="text-center text-lg font-medium mt-3">{userInfo?.get_full_name}</h2>
         </div>
