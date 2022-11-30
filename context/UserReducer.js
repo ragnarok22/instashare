@@ -12,7 +12,6 @@ export const UserReducer = (state, action) => {
       return action.value;
     }
     case "login": {
-      console.log(action);
       return {
         ...state,
         ...action.value,
