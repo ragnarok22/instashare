@@ -61,7 +61,7 @@ const FileList = ({ items, setItems }) => {
 
   const handleDownload = (e) => {
     setShowModal(false)
-    window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
+    // window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
   }
 
   const handleNewDownload = async (e) => {
@@ -120,7 +120,14 @@ const FileList = ({ items, setItems }) => {
           </tbody>
         </table>
       </div>
-      {showModal && <DownloadModal onClose={() => setShowModal(false)} onDownload={handleDownload} onNewDownload={handleNewDownload} />}
+      {
+        showModal && <DownloadModal
+          file_url={base_url + checkResponse.data.url}
+          onClose={() => setShowModal(false)}
+          onDownload={handleDownload}
+          onNewDownload={handleNewDownload}
+        />
+      }
     </section>
   )
 }
