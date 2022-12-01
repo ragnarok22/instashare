@@ -6,10 +6,12 @@ import Loading from "../../components/Loading"
 import { useRouter } from "next/router";
 import defaultImage from "../../public/default.jpg"
 import Image from "next/image";
+import UpdateUserProfile from "../../components/UpdateUserProfile";
 
 
 export default function UpdateProfile() {
   const [userInfo, setUserInfo] = useState({})
+  const [file, setFile] = useState()
   const { state } = useUserContext()
   const [loading, setLoading] = useState(false)
   const [loadingPage, setLoadingPage] = useState(true)
@@ -19,7 +21,6 @@ export default function UpdateProfile() {
     (async () => {
       setLoadingPage(true)
       const response = await API.getUser(state.token)
-      console.log(response)
 
       if (response.status === 200) {
         setUserInfo(response.data)
@@ -36,6 +37,10 @@ export default function UpdateProfile() {
     const data = Object.fromEntries(
       Object.entries(userInfo).filter(([key, value]) => !!value)
     )
+
+    if (file) {
+      data["file"] = file
+    }
 
     const response = await API.updateUser(userInfo.id, data, state.token)
 
@@ -62,11 +67,7 @@ export default function UpdateProfile() {
     <DashboardLayout className="flex justify-center">
       <div className="flex w-full lg:w-11/12 flex-col md:flex-row">
         <div className="flex flex-col justify-start items-center h-fit bg-gray-50 p-4 pb-2 rounded-lg w-full md:w-1/4 mb-3 md:mr-3 shadow-sm hover:shadow-md transition-all duration-300">
-          {
-            userInfo.picture
-              ? <Image src={state.picture} className="aspect-square rounded" width="300" height="300" alt={state.username} />
-              : <Image src={defaultImage} className="aspect-square rounded" width="300" height="300" alt={state.username} />
-          }
+          <UpdateUserProfile userInfo={userInfo} file={file} setFile={setFile} />
           <h2 className="text-center text-lg font-medium mt-3">{userInfo?.get_full_name}</h2>
         </div>
 

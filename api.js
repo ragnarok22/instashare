@@ -186,10 +186,33 @@ const apiSettings = {
     return response;
   },
   updateUser: async (user_id, data) => {
-    const response = await axios
-      .patch(`/users/${user_id}/`, data)
-      .then((response) => response)
-      .catch((error) => error.response);
+    let response;
+    if (data.file) {
+      let form_data = new FormData();
+      form_data.append("picture", data.file, data.file.name);
+      for (const item in data) {
+        if (item !== "file") {
+          form_data.append(item, data[item]);
+        }
+      }
+      for (const talla of form_data) {
+        console.log(talla);
+      }
+      response = await axios
+        .patch(`/users/${user_id}/`, form_data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => response)
+        .catch((error) => error.response);
+    } else {
+      response = await axios
+        .patch(`/users/${user_id}/`, data)
+        .then((response) => response)
+        .catch((error) => error.response);
+    }
+
     return response;
   },
 };
