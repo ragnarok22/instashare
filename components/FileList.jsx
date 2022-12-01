@@ -5,7 +5,7 @@ import { useUserContext } from "../context/UserContext"
 import DownloadModal from "./DownloadModal"
 import { useRouter } from "next/router"
 
-const base_url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/"
+const base_url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
 
 const FileList = ({ items, setItems }) => {
   const [loading, setLoading] = useState(false)
@@ -30,6 +30,7 @@ const FileList = ({ items, setItems }) => {
   const handleDownloadAll = async (e) => {
     setLoading(true)
     const response = await API.downloadAll()
+    console.log(response)
 
     if (response.status === 400) {
       if (response.data.url) {
@@ -51,7 +52,7 @@ const FileList = ({ items, setItems }) => {
   }
 
   useEffect(() => {
-    if (intervalId && checkResponse.status === 200) {
+    if (intervalId && checkResponse.status === 200 && checkResponse.data.url) {
       clearInterval(intervalId)
       setLoading(false)
       window.open(base_url + checkResponse.data.url, '_blank', 'noopener,noreferrer')
