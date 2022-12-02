@@ -16,6 +16,7 @@ const Home = () => {
     if (!router.isReady) return;
     setLoading(true)
     API.listFiles().then(response => {
+      console.log(response)
       if (response.status === 200) {
         setFiles(response.data.results)
       }
